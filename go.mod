@@ -1,4 +1,4 @@
-module distributed-file-storage
+module github.com/guisaez/distributed-file-storage
 
 go 1.22.2
 

@@ -1,7 +1,7 @@
 package p2p
 
 import (
-	"distributed-file-storage/p2p"
+	"github.com/guisaez/distributed-file-storage/p2p"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
