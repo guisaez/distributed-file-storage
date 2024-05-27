@@ -1,9 +1,9 @@
 package main
 
 import (
-	"distributed-file-storage/p2p"
-
 	"log"
+
+	"github.com/guisaez/distributed-file-storage/p2p"
 )
 
 func main() {

@@ -1,7 +1,6 @@
 package p2p
 
 import (
-	"github.com/guisaez/distributed-file-storage/p2p"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,10 +10,10 @@ func TestTCPTransport(t *testing.T) {
 
 	listenAddr := ":4000"
 
-	tcpOpts := p2p.TCPTransportOpts{
+	tcpOpts := TCPTransportOpts{
 		ListenAddr: ":400",
-		HandshakeFunc: p2p.NOPHandshakeFunc,
-		Decoder: p2p.DefaultDecoder{},
+		HandshakeFunc: NOPHandshakeFunc,
+		Decoder: DefaultDecoder{},
 	}
 	tr := NewTCPTransport(tcpOpts)
 
