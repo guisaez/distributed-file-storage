@@ -1,38 +1,43 @@
 package main
 
 import (
-	"fmt"
 	"log"
 
 	"github.com/guisaez/distributed-file-storage/p2p"
 )
+func makeServer(listenAddr string, nodes ...string) *FileServer {
+	tcpTransportOpts := p2p.TCPTransportOpts{
+		ListenAddr: listenAddr,
+		HandshakeFunc: p2p.NOPHandshakeFunc,
+		Decoder: p2p.DefaultDecoder{},
+	}
+	tcpTransport := p2p.NewTCPTransport(tcpTransportOpts)
 
-func OnPeer(peer p2p.Peer) error {
-	peer.Close()
-	fmt.Println("doing some logic with the peer outside TCPTransport")
-	return nil
+	fileServerOpts := FileServerOpts {
+		StorageRoot: listenAddr + "network",
+		PathTransformFunc: CASPathTransformFunc,
+		Transport: tcpTransport,
+		BootstrapNodes: nodes,
+	}
+
+	s :=  NewFileServer(fileServerOpts)
+
+	tcpTransport.OnPeer = s.OnPeer
+
+	return s
 }
 
+
 func main() {
-	tcpOpts := p2p.TCPTransportOpts{
-		ListenAddr:    ":3000",
-		HandshakeFunc: p2p.NOPHandshakeFunc,
-		Decoder:       p2p.DefaultDecoder{},
-		OnPeer:        OnPeer,
-	}
+	
+	s1 := makeServer(":3000", "")
 
-	tr := p2p.NewTCPTransport(tcpOpts)
-
-	go func() {
-		for {
-			msg := <-tr.Consume()
-			fmt.Printf("%+v\n", msg)
-		}
+	go func() { 
+		log.Fatal(s1.Start())
 	}()
 
-	if err := tr.ListenAndAccept(); err != nil {
-		log.Fatal(err)
-	}
+	s2 := makeServer(":4000", ":3000")
 
-	select {}
+	s2.Start()
+
 }
