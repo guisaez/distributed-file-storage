@@ -22,7 +22,7 @@ func makeServer(listenAddr string, nodes ...string) *FileServer {
 		BootstrapNodes: nodes,
 	}
 
-	s :=  NewFileServer(fileServerOpts)
+	s := NewFileServer(fileServerOpts)
 
 	tcpTransport.OnPeer = s.OnPeer
 
@@ -47,7 +47,6 @@ func main() {
 	time.Sleep(time.Second * 1)
 
 	data := bytes.NewReader([]byte("my big data file here!"))
-
 	s2.StoreData("myprivatedata", data)
 
 	select {}
