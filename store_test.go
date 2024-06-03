@@ -28,11 +28,11 @@ func TestStore(t *testing.T) {
 	key := "foobar"
 	data := []byte("some jpg bytes")
 
-	if err := s.writeStream(key, bytes.NewReader(data)); err != nil {
+	if _, err := s.writeStream(key, bytes.NewReader(data)); err != nil {
 		t.Error(err)
 	}
 
-	r, err := s.Read(key)
+	_, r, err := s.Read(key)
 	if err != nil {
 		t.Error(err)
 	}
@@ -66,7 +66,7 @@ func TestStoreDeleteKey(t *testing.T) {
 	data := []byte("some jpg bytes")
 	key := "mom_specials"
 
-	if err := s.writeStream(key, bytes.NewReader(data)); err != nil {
+	if _, err := s.writeStream(key, bytes.NewReader(data)); err != nil {
 		t.Error(err)
 	}
 
