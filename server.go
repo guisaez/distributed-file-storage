@@ -220,7 +220,7 @@ func (s *FileServer) handleMessageGetFile(from string, msg MessageGetFile) error
 		return err
 	}
 
-	fmt.Printf("wrote (%d) bytes over the network to %s\n", n, from)
+	fmt.Printf("written (%d) bytes over the network to %s\n", n, from)
 
 	return nil
 }
